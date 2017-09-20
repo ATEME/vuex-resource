@@ -1,0 +1,14 @@
+{
+  "name": "vuex-resource",
+  "version": "0.0.1",
+  "description": "A vuex utility to create store for resources or CRUD collections API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Valentin Bailleul",
+  "license": "MIT",
+  "peerDependencies": {
+    "lodash": "^4.17.4"
+  }
+}
