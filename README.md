@@ -24,11 +24,7 @@ const store = new Vuex.Store(
     resource: 'my-resource',
 
     // extend the store with your own defined store
-    state: {},
-    mutations: {},
-    actions: {},
-    getters: {},
-    modules: {}
+    store: {}
 
   })
 
@@ -482,3 +478,11 @@ Then with the same store, `store.getters['data']` will be equal to
   user: 'lulu'
 }]
 ```
+
+## API
+
+Full API can be found [here](https://github.com/ATEME/vuex-resource/blob/master/API.md)
+
+## License
+
+vuex-resource is [MIT licensed](https://github.com/ATEME/vuex-resource/blob/master/LICENSE)
