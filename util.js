@@ -12,7 +12,7 @@ import { toPath, has, get, isNil, isPlainObject } from 'lodash'
  * @param {string[]} path - the resource path
  * @returns {string[]} the the exact path to the resource in state
  */
-export function getPath (path) {
+export function getPath(path) {
   return toPath(path).reduce((acc, p) => [...acc, '/', p], ['resource'])
 }
 
@@ -26,12 +26,17 @@ export function getPath (path) {
  * @param {any} fallback - The value to return if data is not found
  * @returns {any} the found data
  */
-export function getData ({ state, path = [], aggregate }, fallback) {
+export function getData({ state, path = [], aggregate }, fallback) {
   const data = get(state, [...getPath(path), 'data'], fallback)
 
   return aggregate && isPlainObject(data)
-    ? Object.keys(get(state, [...getPath(path), '/'], {}))
-        .reduce((acc, key) => ({ ...acc, [key]: getData({ state, path: [...path, key], aggregate }) }), data)
+    ? Object.keys(get(state, [...getPath(path), '/'], {})).reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: getData({ state, path: [...path, key], aggregate })
+        }),
+        data
+      )
     : data
 }
 
@@ -44,7 +49,7 @@ export function getData ({ state, path = [], aggregate }, fallback) {
  * @param {string[]} params.path - the resource path
  * @param {any} data - The data to set
  */
-export function setData ({ state, path }, data) {
+export function setData({ state, path }, data) {
   deepSet(state, [...getPath(path), 'data'], data)
 }
 
@@ -56,7 +61,7 @@ export function setData ({ state, path }, data) {
  * @param {object} params.state - the store state
  * @param {string[]} params.path - the resource path
  */
-export function removePath ({ state, path }) {
+export function removePath({ state, path }) {
   deepDelete(state, getPath(path))
 }
 
@@ -71,7 +76,7 @@ export function removePath ({ state, path }) {
  * @param {any} fallback - The value to return if meta is not found
  * @returns {any} the found meta
  */
-export function getMeta ({ state, action, path, name }, fallback) {
+export function getMeta({ state, action, path, name }, fallback) {
   return get(state, [...getPath(path), 'meta', action, name], fallback)
 }
 
@@ -86,23 +91,24 @@ export function getMeta ({ state, action, path, name }, fallback) {
  * @param {string} params.name - the name of the meta
  * @param {any} meta - The meta to set
  */
-export function setMeta ({ state, action, path, name }, meta) {
+export function setMeta({ state, action, path, name }, meta) {
   deepSet(state, [...getPath(path), 'meta', action, name], meta)
 }
 
-function deepSet (object, path, value) {
-  let fields = toPath(path)
-  let prop = fields.shift()
+function deepSet(object, path, value) {
+  const fields = toPath(path)
+  const prop = fields.shift()
 
   if (!fields.length) return Vue.set(object, prop, value)
-  if (!has(object, prop) || isNil(object[prop])) Vue.set(object, prop, fields.length >= 1 && typeof fields[0] === 'number' ? [] : {})
+  if (!has(object, prop) || isNil(object[prop]))
+    Vue.set(object, prop, fields.length >= 1 && typeof fields[0] === 'number' ? [] : {})
 
   deepSet(object[prop], fields, value)
 }
 
-function deepDelete (object, path) {
-  let fields = toPath(path)
-  let prop = fields.shift()
+function deepDelete(object, path) {
+  const fields = toPath(path)
+  const prop = fields.shift()
 
   if (!fields.length) return Vue.delete(object, prop)
   deepDelete(object[prop], fields)

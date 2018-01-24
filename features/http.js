@@ -1,6 +1,5 @@
 export default () => ({
   actions: {
-
     /**
      * Emit a GET request
      *
@@ -10,8 +9,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    get ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'get' } })
+    get({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'get' }
+      })
     },
 
     /**
@@ -23,8 +25,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    head ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'head' } })
+    head({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'head' }
+      })
     },
 
     /**
@@ -36,8 +41,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    post ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'post' } })
+    post({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'post' }
+      })
     },
 
     /**
@@ -49,8 +57,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    put ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'put' } })
+    put({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'put' }
+      })
     },
 
     /**
@@ -62,8 +73,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    delete ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'delete' } })
+    delete({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'delete' }
+      })
     },
 
     /**
@@ -75,8 +89,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    connect ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'connect' } })
+    connect({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'connect' }
+      })
     },
 
     /**
@@ -88,8 +105,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    options ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'options' } })
+    options({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'options' }
+      })
     },
 
     /**
@@ -101,8 +121,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    trace ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'trace' } })
+    trace({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'trace' }
+      })
     },
 
     /**
@@ -114,8 +137,11 @@ export default () => ({
      * @param {ActionParams} params - the parameters object
      * @returns {Promise} the related request's promise
      */
-    patch ({ dispatch }, params) {
-      return dispatch('request', { ...params, config: { ...params.config, method: 'patch' } })
+    patch({ dispatch }, params) {
+      return dispatch('request', {
+        ...params,
+        config: { ...params.config, method: 'patch' }
+      })
     }
   }
 })

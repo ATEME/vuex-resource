@@ -1,7 +1,7 @@
 # vuex-resource
 
-The goal of this module is to generate a vuex store providing the basic actions to manage a resource related API.
-If the resource is a collection, records can be easily managed with the provided CRUD actions.
+The goal of this module is to generate a vuex store providing the basic actions to manage a resource related API. If the
+resource is a collection, records can be easily managed with the provided CRUD actions.
 
 ## Installation
 
@@ -11,23 +11,18 @@ npm install --save vuex-resource
 
 ## Initialization
 
-
 ```js
 import createStore from 'vuex-resource'
 import Vuex from 'vuex'
 
 const store = new Vuex.Store(
-
   createStore({
-
     // indicate the endpoint to your resource
     resource: 'my-resource',
 
     // extend the store with your own defined store
     store: {}
-
   })
-
 )
 ```
 
@@ -37,17 +32,19 @@ Once created, the state will have a single property : `resource`, an empty objec
 
 ```js
 {
-  resource: {}
+  resource: {
+  }
 }
 ```
 
-The hierarchy in this `resource` object is created according to the paths given in the actions. Each level of hierarchy may contain:
+The hierarchy in this `resource` object is created according to the paths given in the actions. Each level of hierarchy
+may contain:
 
 ```js
 {
   // the response data
   data: null,
-  
+
   // the metadata related to each actions
   meta: {},
 
@@ -62,12 +59,10 @@ The meta property of an action may contain:
 {
   // the promise related to the current pending request, or false if no request is pending
   pending,
-
-  // the last errored response, or false if last response is not errored
-  error,
-
-  // headers from last response
-  headers
+    // the last errored response, or false if last response is not errored
+    error,
+    // headers from last response
+    headers
 }
 ```
 
@@ -107,11 +102,11 @@ After many actions, with different paths and different methods, your state may l
 }
 ```
 
-With this hierarchy, it can quickly be a pain to retrieve informations from your state, this is why the following utility functions are provided:
+With this hierarchy, it can quickly be a pain to retrieve informations from your state, this is why the following
+utility functions are provided:
 
 ```js
 import { getData, setData, getMeta, setMeta, getPath, removePath } from 'vuex-resource'
-
 
 getData({ state, path: ['nice', 'path'] }, fallback)
 // will return state.resource['/']['nice']['/']['path'].data if it exists or provided fallback value if inexistant
@@ -128,11 +123,12 @@ setMeta({ state, path: ['nice', 'path'], action: 'post', name: 'pending' }, meta
 getPath(['nice', 'path'])
 // will return the new array ['resource', '/', 'nice', '/', 'path']
 
-removePath({ state, path: ['nice', 'path']})
+removePath({ state, path: ['nice', 'path'] })
 // will delete the key 'path' from the object state.resource['/']['nice']['/']
-``` 
+```
 
-__Caution__: `setData`, `setMeta`, and `removePath` should be executed exclusively inside mutations because they alter the state.
+**Caution**: `setData`, `setMeta`, and `removePath` should be executed exclusively inside mutations because they alter
+the state.
 
 ## Basic usage
 
@@ -141,39 +137,47 @@ __Caution__: `setData`, `setMeta`, and `removePath` should be executed exclusive
 Each HTTP method has its own defined action:
 
 ```js
-store.dispatch('get', params)
-  .then(response => { /* ... */ })
+store.dispatch('get', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('head', params)
-  .then(response => { /* ... */ })
+store.dispatch('head', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('post', params)
-  .then(response => { /* ... */ })
+store.dispatch('post', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('put', params)
-  .then(response => { /* ... */ })
+store.dispatch('put', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('delete', params)
-  .then(response => { /* ... */ })
+store.dispatch('delete', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('connect', params)
-  .then(response => { /* ... */ })
+store.dispatch('connect', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('options', params)
-  .then(response => { /* ... */ })
+store.dispatch('options', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('trace', params)
-  .then(response => { /* ... */ })
+store.dispatch('trace', params).then(response => {
+  /* ... */
+})
 
-store.dispatch('patch', params)
-  .then(response => { /* ... */ })
+store.dispatch('patch', params).then(response => {
+  /* ... */
+})
 ```
 
 When dispatching the action, you can provide a `params` object containing the default following properties:
 
 ```js
 const params = {
-
   /*
     An array of strings describing the extra paths to a specific resource
     Each subpath in the url is an item in the array
@@ -210,30 +214,33 @@ const params = {
 The basic CRUD methods are also available and already configured to update the state accordingly:
 
 ```js
-
 /*
   'create' execute a 'post' action and store the response at the path given in params
 */
-store.dispatch('create', params)
-  .then(response => { /* .. */ })
+store.dispatch('create', params).then(response => {
+  /* .. */
+})
 
 /*
   'refresh' execute a 'get' action and store the response at the path given in params
 */
-store.dispatch('refresh', params)
-  .then(response => { /* .. */ })
+store.dispatch('refresh', params).then(response => {
+  /* .. */
+})
 
 /*
   'update' execute a 'put' action and store the response at the path given in params
 */
-store.dispatch('update', params)
-  .then(response => { /* .. */ })
+store.dispatch('update', params).then(response => {
+  /* .. */
+})
 
 /*
   'destroy' execute a 'delete' action and remove the related path from the state
 */
-store.dispatch('destroy', params)
-  .then(response => { /* .. */ })
+store.dispatch('destroy', params).then(response => {
+  /* .. */
+})
 ```
 
 ### Getters
@@ -244,14 +251,15 @@ The following getters are available within the store:
 store.getters['data']
 // will return the root data value
 
-store.getters['byPath'](path: Array)
+store.getters['byPath']((path: Array))
 // will return the value at the specified path
 ```
 
-
 ## Collection usage
 
-If the resource you are managing is a collection with identifiable records, you can prevent data redundancy when refreshing a single record or many records. A store becomes collection-ready if the method `getRecordId` is provided during creation.
+If the resource you are managing is a collection with identifiable records, you can prevent data redundancy when
+refreshing a single record or many records. A store becomes collection-ready if the method `getRecordId` is provided
+during creation.
 
 ```js
 createStore({
@@ -268,33 +276,37 @@ createStore({
 The two following getters become then usefull:
 
 ```js
-store.getters['getAllRecords'](config: Object)
+store.getters['getAllRecords']((config: Object))
 // will return all the records already fetched, globally or individually, formatted with 'formatRecord' if 'config.format' is true
 
-store.getters['byId'](id: String, config: Object)
+store.getters['byId']((id: String), (config: Object))
 // will return the record with related id, formatted with 'formatRecord' if 'config.format' is true
 ```
 
-When a store is collection-ready, the behaviour of the `refresh` action is different when no path is provided. Here's what it does:
+When a store is collection-ready, the behaviour of the `refresh` action is different when no path is provided. Here's
+what it does:
 
- 1. fetch the entire collection (or a portion, based on the provided query string)
- 1. parse the received records with the method `getRecordId`
- 1. store each record at the right path
-
+1. fetch the entire collection (or a portion, based on the provided query string)
+1. parse the received records with the method `getRecordId`
+1. store each record at the right path
 
 For example, let's say the full collection of `my-resource` is equal to:
 
 ```js
-[{
-  id: 'a1',
-  name: 'A1'
-}, {
-  id: 'b2',
-  name: 'B2'
-}, {
-  id: 'c3',
-  name: 'C3'
-}]
+;[
+  {
+    id: 'a1',
+    name: 'A1'
+  },
+  {
+    id: 'b2',
+    name: 'B2'
+  },
+  {
+    id: 'c3',
+    name: 'C3'
+  }
+]
 ```
 
 With `getRecordId` not set and once the promise `store.dispatch('refresh')` is resolved, the state will look like:
@@ -360,7 +372,8 @@ The same action with `getRecordId` provided during creation will lead to the fol
 }
 ```
 
-Here we notice a new meta `ids`. It corresponds to the array of record ids from the last 'refresh' action response. The getter `data` behave also differently, because it uses this new meta to reconstruct the collection:
+Here we notice a new meta `ids`. It corresponds to the array of record ids from the last 'refresh' action response. The
+getter `data` behave also differently, because it uses this new meta to reconstruct the collection:
 
 ```js
 store.getters['data']
@@ -369,19 +382,24 @@ store.getters['data']
 is then still equal to
 
 ```js
-[{
-  id: 'a1',
-  name: 'A1'
-}, {
-  id: 'b2',
-  name: 'B2'
-}, {
-  id: 'c3',
-  name: 'C3'
-}]
+;[
+  {
+    id: 'a1',
+    name: 'A1'
+  },
+  {
+    id: 'b2',
+    name: 'B2'
+  },
+  {
+    id: 'c3',
+    name: 'C3'
+  }
+]
 ```
 
-With this behaviour, `store.dispatch('refresh')` and `store.dispatch('refresh', { path: ['a1'] })` will both refresh the same object in state. Each record is stored at one single place.
+With this behaviour, `store.dispatch('refresh')` and `store.dispatch('refresh', { path: ['a1'] })` will both refresh the
+same object in state. Each record is stored at one single place.
 
 ## Advanced
 
@@ -411,9 +429,11 @@ store.getters['byId']('a1', { aggregate: true })
 store.getters['getAllRecords']({ aggregate: true })
 ```
 
-The getters `byPath`, `byId` and `getAllRecords` all have, as last argument, a `config` object. This object contains a property `aggregate`, a boolean, that let you decide if the data should be aggregated or not.
+The getters `byPath`, `byId` and `getAllRecords` all have, as last argument, a `config` object. This object contains a
+property `aggregate`, a boolean, that let you decide if the data should be aggregated or not.
 
-When `aggregate` is set to `true`, all the data found in subpaths will be set as properties in the returned data ONLY if the data at the asked path is an object
+When `aggregate` is set to `true`, all the data found in subpaths will be set as properties in the returned data ONLY if
+the data at the asked path is an object
 
 For example, when the store is equal to
 
@@ -445,9 +465,8 @@ For example, when the store is equal to
 }
 ```
 
- by calling 
-`store.getters['byId']('a1', { aggregate: true })` or `store.getters['byPath'](['a1'], { aggregate: true })`, you will get
-
+by calling `store.getters['byId']('a1', { aggregate: true })` or `store.getters['byPath'](['a1'], { aggregate: true })`,
+you will get
 
 ```js
 {
@@ -457,7 +476,8 @@ For example, when the store is equal to
 }
 ```
 
-You can also get aggregated data by calling the getter `data` by setting the property `aggregateData` to `true` when initializing the store:
+You can also get aggregated data by calling the getter `data` by setting the property `aggregateData` to `true` when
+initializing the store:
 
 ```js
 createStore({
@@ -469,14 +489,17 @@ createStore({
 Then with the same store, `store.getters['data']` will be equal to
 
 ```js
-[{
-  id: 'a1',
-  user: 'tom',
-  color: 'yellow'
-}, {
-  id: 'b2',
-  user: 'lulu'
-}]
+;[
+  {
+    id: 'a1',
+    user: 'tom',
+    color: 'yellow'
+  },
+  {
+    id: 'b2',
+    user: 'lulu'
+  }
+]
 ```
 
 ## API

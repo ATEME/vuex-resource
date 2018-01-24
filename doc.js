@@ -34,8 +34,7 @@
 /**
  * The parameter object to be provided to the action 'refresh'
  *
- * @typedef {Object} RefreshParams
- * @type {object}
+ * @typedef {object} RefreshParams
  * @extends ActionParams
  * @property {boolean} storeIds - Indicates whether or not the ids should be stored in meta.
  * The getter 'data' rebuild the collection with those ids. If 'storeIds' is set to false, the collection will be fetched and stored, but ids in meta won't change, and then getter 'data' won't change
@@ -44,8 +43,7 @@
 /**
  * The configuration object to be provided to the store generator
  *
- * @typedef {Object} StoreConfig
- * @type {object}
+ * @typedef {object} StoreConfig
  * @property {string} resource - the resource url
  * @property {object} client - your custom axios client
  * @property {function} formatRecord - the method used to format records in getters 'byId' and 'getAllRecords'

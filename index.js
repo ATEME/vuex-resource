@@ -29,14 +29,14 @@ export const defaultClient = client
  * @param {StoreConfig} config - the configuration to be provided to the store generator
  * @returns {store}
  */
-export default function (
-  {
+export default function({
   resource,
   client = defaultClient,
-  formatRecord = record => record,
+  formatRecord = (record, context) => record,
   getRecordId,
   aggregateData = false,
-  store = {}
+  store = {},
+  onError = e => e
 }) {
   return merge.apply(this, [
     // base store with initial state and getters
@@ -48,7 +48,6 @@ export default function (
       },
 
       getters: {
-
         /**
          * Get a record by its id, formatted and/or aggregated with subpaths depending on config
          *
@@ -63,7 +62,12 @@ export default function (
         byId: (state, getters, rootState, rootGetters) => (id, { format = true, aggregate = false } = {}) => {
           return getters.byPath([id])
             ? format
-              ? formatRecord(getters.byPath([id], { aggregate }), { state, getters, rootState, rootGetters })
+              ? formatRecord(getters.byPath([id], { aggregate }), {
+                  state,
+                  getters,
+                  rootState,
+                  rootGetters
+                })
               : getters.byPath([id], { aggregate })
             : undefined
         },
@@ -95,7 +99,9 @@ export default function (
          * @return {object} The entire fetched collection
          */
         getAllRecords: (state, getters, rootState, rootGetters) => ({ format = true, aggregate = false } = {}) =>
-          getData({ state, aggregate }, []).map(d => format ? formatRecord(d, { state, getters, rootState, rootGetters }) : d),
+          getData({ state, aggregate }, []).map(
+            d => (format ? formatRecord(d, { state, getters, rootState, rootGetters }) : d)
+          ),
 
         /**
          * Accessor to the last refreshed root resource or collection, aggregated or not depending on store config
@@ -103,14 +109,17 @@ export default function (
          * @var
          * @memberof store.getters
          */
-        data: (state, getters, rootState, rootGetters) => isFunction(getRecordId)
-          ? getMeta({ state, action: 'refresh', name: 'ids' }, []).map(id => getters.byId(id, { aggregate: aggregateData })).filter(entity => !isNil(entity))
-          : getData({ state, aggregate: aggregateData })
+        data: (state, getters, rootState, rootGetters) =>
+          isFunction(getRecordId)
+            ? getMeta({ state, action: 'refresh', name: 'ids' }, []) // FIXME : When fetching a single record before fetching the collection, 'ids' is empty
+                .map(id => getters.byId(id, { aggregate: aggregateData }))
+                .filter(entity => !isNil(entity))
+            : getData({ state, aggregate: aggregateData })
       }
     },
 
     // store responsible of emitting requests and commiting actions
-    _request({ client, resource }),
+    _request({ client, resource, _onError: onError }),
 
     // store responsible of emitting basic http request
     _http(),
