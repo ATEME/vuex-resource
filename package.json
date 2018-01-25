@@ -2,14 +2,31 @@
   "name": "vuex-resource",
   "version": "0.0.2",
   "description": "A vuex utility to create store for resources or CRUD collections API",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf dist",
+    "build": "npm run clean && webpack --config build/webpack.conf.js"
   },
   "author": "Valentin Bailleul",
   "license": "MIT",
-  "dependencies": {
-    "lodash": "^4.17.4"
+  "peerDependencies": {
+    "vue": "^2.5.13",
+    "lodash": "^4.17.4",
+    "axios": "^0.17.1"
+  },
+  "babel": {
+    "presets": [
+      "stage-2"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^7.1.1",
+    "babel-preset-stage-2": "^6.22.0",
+    "peer-deps-externals-webpack-plugin": "^1.0.2",
+    "rimraf": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "webpack": "^3.6.0"
   },
   "repository": {
     "type": "git",
